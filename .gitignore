@@ -1,0 +1,20 @@
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+Packages/
+
+# Xcode
+xcuserdata/
+DerivedData/
+
+# OS files
+.DS_Store
+
+# Linting/Formatting config
+.swiftlint/
+.swift-format
+
+
+# SwiftLint Remote Config Cache
+.swiftlint/RemoteConfigCache
