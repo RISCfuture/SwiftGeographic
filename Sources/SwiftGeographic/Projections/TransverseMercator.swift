@@ -40,7 +40,6 @@ public struct TransverseMercator: Sendable {
   private static let maxpow = 6
 
   // Precomputed ellipsoid parameters
-  private let a: Double
   private let k0: Double
   private let e2: Double
   private let es: Double
@@ -67,7 +66,6 @@ public struct TransverseMercator: Sendable {
     flattening: Double,
     centralScale: Double
   ) {
-    a = semiMajorAxis
     let f = flattening
     k0 = centralScale
     e2 = f * (2 - f)

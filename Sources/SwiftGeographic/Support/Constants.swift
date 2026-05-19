@@ -1,5 +1,3 @@
-import Foundation
-
 /// WGS84 ellipsoid and projection constants.
 enum Constants {
 
@@ -8,18 +6,6 @@ enum Constants {
 
   /// WGS84 flattening.
   static let wgs84F: Double = 1.0 / 298.257_223_563
-
-  /// WGS84 first eccentricity squared: f*(2-f).
-  static let wgs84E2: Double = wgs84F * (2 - wgs84F)
-
-  /// WGS84 signed first eccentricity: sqrt(e2).
-  static let wgs84Es: Double = sqrt(wgs84E2)
-
-  /// WGS84 complement of eccentricity squared: 1-e2.
-  static let wgs84E2m: Double = 1 - wgs84E2
-
-  /// WGS84 third flattening: f/(2-f).
-  static let wgs84N: Double = wgs84F / (2 - wgs84F)
 
   /// UTM central scale factor.
   static let utmK0: Double = 0.9996
