@@ -54,23 +54,6 @@ enum LetterTables {
     ]
   ]
 
-  /// UPS band letters.
-  ///
-  /// A and B are south, Y and Z are north. The distinction between the two
-  /// letters in each pair is east vs. west of the prime meridian.
-  static let upsBandLetters: [Character] = ["A", "B", "Y", "Z"]
-
-  /// The minimum northing for each latitude band (in units of 100 km).
-  ///
-  /// Indexed by band index (0 = band C, 19 = band X). Band X spans 12
-  /// degrees so its maximum northing is larger.
-  static let latitudeBandNorthings: [Double] = [
-    11_00_000, 20_00_000, 28_00_000, 37_00_000, 46_00_000,
-    55_00_000, 64_00_000, 73_00_000, 82_00_000, 91_00_000,
-    0, 8_00_000, 17_00_000, 26_00_000, 35_00_000,
-    44_00_000, 53_00_000, 62_00_000, 71_00_000, 80_00_000
-  ]
-
   /// Row letter period: 20 letters = 2,000 km of northing.
   static let utmRowPeriod = 20
 
