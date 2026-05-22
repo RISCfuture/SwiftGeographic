@@ -204,7 +204,7 @@ public struct TransverseMercator: Sendable {
     γ -= MathUtilities.atan2d(dz.imaginary, dz.real)
     k *= b1 * dz.length
 
-    var y = a1 * k0 * (backside ? .pi - ξ : ξ) * latSign
+    let y = a1 * k0 * (backside ? .pi - ξ : ξ) * latSign
     let x = a1 * k0 * η * lonSign
 
     if backside { γ = 180 - γ }
