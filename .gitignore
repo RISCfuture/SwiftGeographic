@@ -4,17 +4,13 @@
 Package.resolved
 Packages/
 
-# Xcode
+# Xcode user state
 xcuserdata/
 DerivedData/
 
-# OS files
-.DS_Store
-
-# Linting/Formatting config
+# SwiftLint
 .swiftlint/
-.swift-format
-
-
-# SwiftLint Remote Config Cache
 .swiftlint/RemoteConfigCache
+
+# swift-format (downloaded in CI)
+.swift-format
