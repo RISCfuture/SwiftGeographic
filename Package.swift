@@ -2,6 +2,11 @@
 
 import PackageDescription
 
+let approachableConcurrency: [SwiftSetting] = [
+  .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+  .enableUpcomingFeature("InferIsolatedConformances")
+]
+
 let package = Package(
   name: "SwiftGeographic",
   platforms: [
@@ -26,7 +31,8 @@ let package = Package(
       name: "SwiftGeographic",
       dependencies: [
         .product(name: "Numerics", package: "swift-numerics")
-      ]
+      ],
+      swiftSettings: approachableConcurrency
     ),
     .testTarget(
       name: "SwiftGeographicTests",
@@ -39,7 +45,8 @@ let package = Package(
         .copy("Resources/mgrs_geoconvert_coords.txt"),
         .copy("Resources/mgrs_geoconvert_mgrs.txt"),
         .copy("Resources/geotrans_clean.txt")
-      ]
+      ],
+      swiftSettings: approachableConcurrency
     )
   ],
   swiftLanguageModes: [.v5, .v6]
