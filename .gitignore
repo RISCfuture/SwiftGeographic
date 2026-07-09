@@ -1,7 +1,6 @@
 # Swift Package Manager
 .build/
 .swiftpm/
-Package.resolved
 Packages/
 
 # Xcode user state
@@ -14,3 +13,4 @@ DerivedData/
 
 # swift-format (downloaded in CI)
 .swift-format
+.claude/settings.local.json
