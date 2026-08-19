@@ -22,3 +22,4 @@
 - ``geographic``
 - ``utm``
 - ``ups``
+- ``clLocationCoordinate2D``

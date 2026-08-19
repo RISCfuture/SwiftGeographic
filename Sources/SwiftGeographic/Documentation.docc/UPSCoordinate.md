@@ -17,3 +17,4 @@
 
 - ``geographic``
 - ``mgrs(precision:)``
+- ``clLocationCoordinate2D``
