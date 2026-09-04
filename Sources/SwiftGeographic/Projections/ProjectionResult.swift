@@ -1,3 +1,5 @@
+import Foundation
+
 /// The result of a map projection computation.
 ///
 /// Contains either projected coordinates (forward) or geographic coordinates

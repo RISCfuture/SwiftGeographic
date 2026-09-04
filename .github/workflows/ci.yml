@@ -3,6 +3,9 @@
 # Category C (tools-version 6.0):                macos-15 + 6.1, macos-15 + 6.3, macos-26 + 6.3
 # Linux (if viable):                             ubuntu + Swift 6.1, ubuntu + Swift 6.3
 #
+# Test names use SE-0451 raw identifiers, which need a Swift 6.2+ compiler, so
+# legs below 6.2 verify the library builds and skip the test suite.
+#
 # When Swift 6.4 ships: bump 6.1->6.2 and 6.3->6.4 in Category C
 # When bumping tools-version to 6.2: drop 6.0/6.1, move to Category A or B
 
@@ -35,7 +38,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
-      - uses: SwiftyLab/setup-swift@v1
+      - uses: SwiftyLab/setup-swift@latest
         with:
           swift-version: ${{ matrix.swift }}
       - name: Cache SwiftPM build products
@@ -49,6 +52,7 @@ jobs:
       - name: Build
         run: swift build -v
       - name: Test
+        if: matrix.swift != '6.1'
         run: swift test -v
   test-linux:
     name: Test on Linux
@@ -72,6 +76,7 @@ jobs:
       - name: Build
         run: swift build -v
       - name: Test
+        if: matrix.swift != '6.1'
         run: swift test -v
   lint:
     name: Run SwiftLint
@@ -100,7 +105,7 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v6
-      - uses: SwiftyLab/setup-swift@v1
+      - uses: SwiftyLab/setup-swift@latest
         with:
           swift-version: "6.3"
       - name: Cache SwiftPM build products

@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 /// Errors that can occur during coordinate conversions and MGRS parsing.
 public enum SwiftGeographicError: Error, Equatable, Hashable, Sendable,
