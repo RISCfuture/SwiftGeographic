@@ -2,13 +2,13 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("MGRSCoordinate Tests")
-struct MGRSCoordinateTests {
+@Suite
+struct `MGRSCoordinate Tests` {
 
   // MARK: - Parsing Known MGRS Strings
 
-  @Test("Parse known MGRS string 18SUJ2337106519")
-  func parseKnownMGRS() throws {
+  @Test
+  func `Parse known MGRS string 18SUJ2337106519`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ2337106519")
     #expect(mgrs.gridZone == "18S")
     #expect(mgrs.squareIdentifier == "UJ")
@@ -19,62 +19,62 @@ struct MGRSCoordinateTests {
     #expect(mgrs.northing.isApproximatelyEqual(to: 06519, absoluteTolerance: 1))
   }
 
-  @Test("Parse MGRS at 100km precision (zone only)")
-  func parse100kmPrecision() throws {
+  @Test
+  func `Parse MGRS at 100km precision (zone only)`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ")
     #expect(mgrs.gridZone == "18S")
     #expect(mgrs.squareIdentifier == "UJ")
     #expect(mgrs.precision == .hundredKilometer)
   }
 
-  @Test("Parse MGRS at 10km precision")
-  func parse10kmPrecision() throws {
+  @Test
+  func `Parse MGRS at 10km precision`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ20")
     #expect(mgrs.gridZone == "18S")
     #expect(mgrs.squareIdentifier == "UJ")
     #expect(mgrs.precision == .tenKilometer)
   }
 
-  @Test("Parse MGRS at 1km precision")
-  func parse1kmPrecision() throws {
+  @Test
+  func `Parse MGRS at 1km precision`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ2306")
     #expect(mgrs.gridZone == "18S")
     #expect(mgrs.squareIdentifier == "UJ")
     #expect(mgrs.precision == .oneKilometer)
   }
 
-  @Test("Parse MGRS at 100m precision")
-  func parse100mPrecision() throws {
+  @Test
+  func `Parse MGRS at 100m precision`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ233065")
     #expect(mgrs.precision == .hundredMeter)
   }
 
-  @Test("Parse MGRS at 10m precision")
-  func parse10mPrecision() throws {
+  @Test
+  func `Parse MGRS at 10m precision`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ23370651")
     #expect(mgrs.precision == .tenMeter)
   }
 
   // MARK: - Round Trip (Parse then Regenerate)
 
-  @Test("Round trip: parse then regenerate MGRS string at 1m precision")
-  func roundTrip1m() throws {
+  @Test
+  func `Round trip: parse then regenerate MGRS string at 1m precision`() throws {
     let original = "18SUJ2337106519"
     let mgrs = try MGRSCoordinate(string: original)
     let regenerated = mgrs.gridReference
     #expect(regenerated == original, "Regenerated MGRS should match original")
   }
 
-  @Test("Round trip: parse then regenerate at 1km precision")
-  func roundTrip1km() throws {
+  @Test
+  func `Round trip: parse then regenerate at 1km precision`() throws {
     let original = "18SUJ2306"
     let mgrs = try MGRSCoordinate(string: original)
     let regenerated = mgrs.gridReference
     #expect(regenerated == original, "Regenerated MGRS should match original")
   }
 
-  @Test("Round trip: geographic to MGRS to geographic")
-  func geoToMGRSToGeo() throws {
+  @Test
+  func `Round trip: geographic to MGRS to geographic`() throws {
     let original = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let mgrs = try original.mgrs(precision: .oneMeter)
     let recovered = try mgrs.geographic
@@ -89,30 +89,30 @@ struct MGRSCoordinateTests {
 
   // MARK: - Invalid MGRS Strings
 
-  @Test("Empty string throws invalidMGRS")
-  func emptyString() {
+  @Test
+  func `Empty string throws invalidMGRS`() {
     #expect(throws: SwiftGeographicError.invalidMGRS("")) {
       try MGRSCoordinate(string: "")
     }
   }
 
-  @Test("Odd digit count throws invalidMGRS")
-  func oddDigits() {
+  @Test
+  func `Odd digit count throws invalidMGRS`() {
     #expect(throws: (any Error).self) {
       try MGRSCoordinate(string: "18SUJ123")
     }
   }
 
-  @Test("Invalid band letter throws invalidMGRS")
-  func invalidBandLetter() {
+  @Test
+  func `Invalid band letter throws invalidMGRS`() {
     // 'I' is not used in MGRS (military alphabet skips I and O)
     #expect(throws: (any Error).self) {
       try MGRSCoordinate(string: "18IUJ2337106519")
     }
   }
 
-  @Test("Zone 99 with invalid band throws")
-  func invalidZone99() {
+  @Test
+  func `Zone 99 with invalid band throws`() {
     #expect(throws: (any Error).self) {
       try MGRSCoordinate(string: "99XUJ2337106519")
     }
@@ -120,16 +120,16 @@ struct MGRSCoordinateTests {
 
   // MARK: - UPS MGRS Strings (Polar)
 
-  @Test("Parse UPS MGRS string starting with Z (north-east)")
-  func parseUPSNorthEast() throws {
+  @Test
+  func `Parse UPS MGRS string starting with Z (north-east)`() throws {
     // Generate a known UPS MGRS string
     let coord = try GeographicCoordinate(latitude: 85, longitude: 10)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(mgrs.isPolar, "UPS MGRS should be polar")
   }
 
-  @Test("Parse UPS MGRS string starting with Y (north-west)")
-  func parseUPSNorthWest() throws {
+  @Test
+  func `Parse UPS MGRS string starting with Y (north-west)`() throws {
     let coord = try GeographicCoordinate(latitude: 85, longitude: -10)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(mgrs.isPolar)
@@ -137,8 +137,8 @@ struct MGRSCoordinateTests {
     #expect(first == "Y", "North-west UPS should start with Y")
   }
 
-  @Test("Parse UPS MGRS string starting with B (south-east)")
-  func parseUPSSouthEast() throws {
+  @Test
+  func `Parse UPS MGRS string starting with B (south-east)`() throws {
     let coord = try GeographicCoordinate(latitude: -85, longitude: 10)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(mgrs.isPolar)
@@ -146,8 +146,8 @@ struct MGRSCoordinateTests {
     #expect(first == "B", "South-east UPS should start with B")
   }
 
-  @Test("Parse UPS MGRS string starting with A (south-west)")
-  func parseUPSSouthWest() throws {
+  @Test
+  func `Parse UPS MGRS string starting with A (south-west)`() throws {
     let coord = try GeographicCoordinate(latitude: -85, longitude: -10)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(mgrs.isPolar)
@@ -157,8 +157,8 @@ struct MGRSCoordinateTests {
 
   // MARK: - gridReference Property
 
-  @Test("gridReference returns correct string")
-  func gridReferenceProperty() throws {
+  @Test
+  func `gridReference returns correct string`() throws {
     let coord = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     // Re-parse and verify gridReference round-trips
@@ -168,15 +168,15 @@ struct MGRSCoordinateTests {
 
   // MARK: - isPolar Property
 
-  @Test("isPolar is true for UPS coordinates")
-  func isPolarTrue() throws {
+  @Test
+  func `isPolar is true for UPS coordinates`() throws {
     let coord = try GeographicCoordinate(latitude: 85, longitude: 0)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(mgrs.isPolar == true)
   }
 
-  @Test("isPolar is false for UTM coordinates")
-  func isPolarFalse() throws {
+  @Test
+  func `isPolar is false for UTM coordinates`() throws {
     let coord = try GeographicCoordinate(latitude: 40, longitude: 0)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(mgrs.isPolar == false)
@@ -184,8 +184,8 @@ struct MGRSCoordinateTests {
 
   // MARK: - UTM/UPS Conversion from MGRS
 
-  @Test("Non-polar MGRS converts to UTM coordinate")
-  func mgrsToUTM() throws {
+  @Test
+  func `Non-polar MGRS converts to UTM coordinate`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ2337106519")
     let utm = try mgrs.utm
     #expect(utm.zone == 18)
@@ -193,8 +193,8 @@ struct MGRSCoordinateTests {
     #expect(utm.hemisphere == .north)
   }
 
-  @Test("Polar MGRS utm property throws invalidZone")
-  func polarMGRSToUTMThrows() throws {
+  @Test
+  func `Polar MGRS utm property throws invalidZone`() throws {
     let coord = try GeographicCoordinate(latitude: 85, longitude: 0)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     #expect(throws: SwiftGeographicError.invalidZone(0)) {
@@ -202,16 +202,16 @@ struct MGRSCoordinateTests {
     }
   }
 
-  @Test("Polar MGRS converts to UPS coordinate")
-  func polarMGRSToUPS() throws {
+  @Test
+  func `Polar MGRS converts to UPS coordinate`() throws {
     let coord = try GeographicCoordinate(latitude: 85, longitude: 0)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     let ups = try mgrs.ups
     #expect(ups.hemisphere == .north)
   }
 
-  @Test("Non-polar MGRS ups property throws outOfRange")
-  func nonPolarMGRSToUPSThrows() throws {
+  @Test
+  func `Non-polar MGRS ups property throws outOfRange`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ2337106519")
     #expect(throws: SwiftGeographicError.outOfRange) {
       _ = try mgrs.ups
@@ -220,8 +220,8 @@ struct MGRSCoordinateTests {
 
   // MARK: - Case Insensitivity
 
-  @Test("MGRS parsing is case insensitive")
-  func caseInsensitive() throws {
+  @Test
+  func `MGRS parsing is case insensitive`() throws {
     let upper = try MGRSCoordinate(string: "18SUJ2337106519")
     let lower = try MGRSCoordinate(string: "18suj2337106519")
     #expect(upper.gridReference == lower.gridReference)
@@ -229,8 +229,8 @@ struct MGRSCoordinateTests {
 
   // MARK: - Geographic Conversion
 
-  @Test("MGRS geographic property returns center of grid cell")
-  func mgrsGeographic() throws {
+  @Test
+  func `MGRS geographic property returns center of grid cell`() throws {
     let mgrs = try MGRSCoordinate(string: "18SUJ2337106519")
     let geo = try mgrs.geographic
     #expect(geo.latitude >= -90 && geo.latitude <= 90)

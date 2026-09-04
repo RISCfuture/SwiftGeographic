@@ -4,11 +4,11 @@
   import Testing
   @testable import SwiftGeographic
 
-  @Suite("CoreLocation Extension Tests")
-  struct CoreLocationTests {
+  @Suite
+  struct `CoreLocation Extension Tests` {
 
-    @Test("GeographicCoordinate to CLLocationCoordinate2D")
-    func geoToCL() throws {
+    @Test
+    func `GeographicCoordinate to CLLocationCoordinate2D`() throws {
       let coord = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
       let cl = coord.clLocationCoordinate2D
       #expect(
@@ -19,8 +19,8 @@
       )
     }
 
-    @Test("CLLocationCoordinate2D to GeographicCoordinate")
-    func clToGeo() throws {
+    @Test
+    func `CLLocationCoordinate2D to GeographicCoordinate`() throws {
       let cl = CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522)
       let coord = try GeographicCoordinate(cl)
       #expect(
@@ -31,8 +31,8 @@
       )
     }
 
-    @Test("UTMCoordinate to CLLocationCoordinate2D")
-    func utmToCL() throws {
+    @Test
+    func `UTMCoordinate to CLLocationCoordinate2D`() throws {
       let utm = try UTMCoordinate(
         zone: 18,
         hemisphere: .north,
@@ -44,8 +44,8 @@
       #expect(cl.longitude.isApproximatelyEqual(to: -74.01, absoluteTolerance: 0.02))
     }
 
-    @Test("MGRSCoordinate to CLLocationCoordinate2D")
-    func mgrsToCL() throws {
+    @Test
+    func `MGRSCoordinate to CLLocationCoordinate2D`() throws {
       let mgrs = try MGRSCoordinate(string: "33XVG7459743593")
       let cl = try mgrs.clLocationCoordinate2D
       #expect(cl.latitude > 77 && cl.latitude < 79)

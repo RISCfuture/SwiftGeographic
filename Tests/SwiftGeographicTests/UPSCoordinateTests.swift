@@ -2,36 +2,36 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("UPSCoordinate Tests")
-struct UPSCoordinateTests {
+@Suite
+struct `UPSCoordinate Tests` {
 
   // MARK: - Valid Creation
 
-  @Test("Create UPS coordinate with valid values")
-  func validCreation() throws {
+  @Test
+  func `Create UPS coordinate with valid values`() throws {
     let ups = try UPSCoordinate(hemisphere: .north, easting: 2_000_000, northing: 2_000_000)
     #expect(ups.hemisphere == .north)
     #expect(ups.easting.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1e-6))
     #expect(ups.northing.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1e-6))
   }
 
-  @Test("Create UPS coordinate for south pole")
-  func southPoleCreation() throws {
+  @Test
+  func `Create UPS coordinate for south pole`() throws {
     let ups = try UPSCoordinate(hemisphere: .south, easting: 2_000_000, northing: 2_000_000)
     #expect(ups.hemisphere == .south)
   }
 
   // MARK: - North Pole Conversion
 
-  @Test("North pole UPS (2000000, 2000000) converts to approximately (90, 0)")
-  func northPoleConversion() throws {
+  @Test
+  func `North pole UPS (2000000, 2000000) converts to approximately (90, 0)`() throws {
     let ups = try UPSCoordinate(hemisphere: .north, easting: 2_000_000, northing: 2_000_000)
     let geo = try ups.geographic
     #expect(geo.latitude.isApproximatelyEqual(to: 90, absoluteTolerance: 1e-6))
   }
 
-  @Test("South pole UPS (2000000, 2000000) converts to approximately (-90, 0)")
-  func southPoleConversion() throws {
+  @Test
+  func `South pole UPS (2000000, 2000000) converts to approximately (-90, 0)`() throws {
     let ups = try UPSCoordinate(hemisphere: .south, easting: 2_000_000, northing: 2_000_000)
     let geo = try ups.geographic
     #expect(geo.latitude.isApproximatelyEqual(to: -90, absoluteTolerance: 1e-6))
@@ -39,8 +39,8 @@ struct UPSCoordinateTests {
 
   // MARK: - Conversion to Geographic
 
-  @Test("UPS to geographic round trip for north polar point")
-  func upsToGeoRoundTripNorth() throws {
+  @Test
+  func `UPS to geographic round trip for north polar point`() throws {
     let original = try GeographicCoordinate(latitude: 85, longitude: 30)
     let ups = try original.ups
     let recovered = try ups.geographic
@@ -50,8 +50,8 @@ struct UPSCoordinateTests {
     )
   }
 
-  @Test("UPS to geographic round trip for south polar point")
-  func upsToGeoRoundTripSouth() throws {
+  @Test
+  func `UPS to geographic round trip for south polar point`() throws {
     let original = try GeographicCoordinate(latitude: -85, longitude: -60)
     let ups = try original.ups
     let recovered = try ups.geographic
@@ -61,8 +61,8 @@ struct UPSCoordinateTests {
     )
   }
 
-  @Test("UPS to geographic for high-latitude north point")
-  func upsToGeoHighLatitudeNorth() throws {
+  @Test
+  func `UPS to geographic for high-latitude north point`() throws {
     let original = try GeographicCoordinate(latitude: 89, longitude: 0)
     let ups = try original.ups
     #expect(ups.hemisphere == .north)
@@ -71,8 +71,8 @@ struct UPSCoordinateTests {
     #expect(recovered.longitude.isApproximatelyEqual(to: 0, absoluteTolerance: 1e-6))
   }
 
-  @Test("UPS to geographic for high-latitude south point")
-  func upsToGeoHighLatitudeSouth() throws {
+  @Test
+  func `UPS to geographic for high-latitude south point`() throws {
     let original = try GeographicCoordinate(latitude: -89, longitude: 120)
     let ups = try original.ups
     #expect(ups.hemisphere == .south)
@@ -83,8 +83,8 @@ struct UPSCoordinateTests {
 
   // MARK: - MGRS Conversion
 
-  @Test("UPS to MGRS string starts with polar band letter")
-  func upsToMGRS() throws {
+  @Test
+  func `UPS to MGRS string starts with polar band letter`() throws {
     let ups = try UPSCoordinate(hemisphere: .north, easting: 2_000_000, northing: 2_000_000)
     let mgrsStr = ups.mgrs().gridReference
     // UPS MGRS should start with Y or Z for north
@@ -92,8 +92,8 @@ struct UPSCoordinateTests {
     #expect(first == "Y" || first == "Z", "North UPS MGRS should start with Y or Z")
   }
 
-  @Test("South UPS to MGRS string starts with A or B")
-  func southUpsToMGRS() throws {
+  @Test
+  func `South UPS to MGRS string starts with A or B`() throws {
     let ups = try UPSCoordinate(hemisphere: .south, easting: 2_000_000, northing: 2_000_000)
     let mgrsStr = ups.mgrs().gridReference
     let first = mgrsStr.first!
@@ -102,8 +102,8 @@ struct UPSCoordinateTests {
 
   // MARK: - Various Longitudes
 
-  @Test("UPS coordinates at various longitudes around north pole")
-  func variousLongitudesNorth() throws {
+  @Test
+  func `UPS coordinates at various longitudes around north pole`() throws {
     let longitudes: [Double] = [0, 45, 90, 135, 180, -45, -90, -135]
     for lon in longitudes {
       let original = try GeographicCoordinate(latitude: 87, longitude: lon)
@@ -122,15 +122,15 @@ struct UPSCoordinateTests {
 
   // MARK: - Equatable
 
-  @Test("Equal UPS coordinates are equatable")
-  func equatable() throws {
+  @Test
+  func `Equal UPS coordinates are equatable`() throws {
     let a = try UPSCoordinate(hemisphere: .north, easting: 2_000_000, northing: 2_000_000)
     let b = try UPSCoordinate(hemisphere: .north, easting: 2_000_000, northing: 2_000_000)
     #expect(a == b)
   }
 
-  @Test("Different UPS coordinates are not equal")
-  func notEqual() throws {
+  @Test
+  func `Different UPS coordinates are not equal`() throws {
     let a = try UPSCoordinate(hemisphere: .north, easting: 2_000_000, northing: 2_000_000)
     let b = try UPSCoordinate(hemisphere: .south, easting: 2_000_000, northing: 2_000_000)
     #expect(a != b)
@@ -138,16 +138,16 @@ struct UPSCoordinateTests {
 
   // MARK: - Exact Pole Points
 
-  @Test("Exact north pole UTM conversion still works")
-  func exactNorthPole() throws {
+  @Test
+  func `Exact north pole UTM conversion still works`() throws {
     let coord = try GeographicCoordinate(latitude: 90, longitude: 0)
     let utm = try coord.utm
     let recovered = try utm.geographic
     #expect(recovered.latitude.isApproximatelyEqual(to: 90, absoluteTolerance: 0.01))
   }
 
-  @Test("Exact south pole UTM conversion still works")
-  func exactSouthPole() throws {
+  @Test
+  func `Exact south pole UTM conversion still works`() throws {
     let coord = try GeographicCoordinate(latitude: -90, longitude: 0)
     let utm = try coord.utm
     let recovered = try utm.geographic

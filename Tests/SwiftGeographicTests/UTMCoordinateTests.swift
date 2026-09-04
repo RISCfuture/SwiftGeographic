@@ -2,13 +2,13 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("UTMCoordinate Tests")
-struct UTMCoordinateTests {
+@Suite
+struct `UTMCoordinate Tests` {
 
   // MARK: - Valid Creation
 
-  @Test("Create UTM coordinate with valid values")
-  func validCreation() throws {
+  @Test
+  func `Create UTM coordinate with valid values`() throws {
     let utm = try UTMCoordinate(
       zone: 18,
       hemisphere: .north,
@@ -21,8 +21,8 @@ struct UTMCoordinateTests {
     #expect(utm.northing.isApproximatelyEqual(to: 4507523, absoluteTolerance: 1e-6))
   }
 
-  @Test("Create UTM coordinate at zone boundaries")
-  func zoneBoundaries() throws {
+  @Test
+  func `Create UTM coordinate at zone boundaries`() throws {
     let zone1 = try UTMCoordinate(zone: 1, hemisphere: .north, easting: 500000, northing: 0)
     #expect(zone1.zone == 1)
 
@@ -32,22 +32,22 @@ struct UTMCoordinateTests {
 
   // MARK: - Invalid Zone
 
-  @Test("Zone 0 throws invalidZone")
-  func invalidZone0() {
+  @Test
+  func `Zone 0 throws invalidZone`() {
     #expect(throws: SwiftGeographicError.invalidZone(0)) {
       try UTMCoordinate(zone: 0, hemisphere: .north, easting: 500000, northing: 0)
     }
   }
 
-  @Test("Zone 61 throws invalidZone")
-  func invalidZone61() {
+  @Test
+  func `Zone 61 throws invalidZone`() {
     #expect(throws: SwiftGeographicError.invalidZone(61)) {
       try UTMCoordinate(zone: 61, hemisphere: .north, easting: 500000, northing: 0)
     }
   }
 
-  @Test("Negative zone throws invalidZone")
-  func negativeZone() {
+  @Test
+  func `Negative zone throws invalidZone`() {
     #expect(throws: SwiftGeographicError.invalidZone(-1)) {
       try UTMCoordinate(zone: -1, hemisphere: .north, easting: 500000, northing: 0)
     }
@@ -55,8 +55,8 @@ struct UTMCoordinateTests {
 
   // MARK: - Known Point: Statue of Liberty
 
-  @Test("Statue of Liberty UTM coordinates approximately 18N 580736 4504695")
-  func statueOfLiberty() throws {
+  @Test
+  func `Statue of Liberty UTM coordinates approximately 18N 580736 4504695`() throws {
     // Statue of Liberty: 40.6892, -74.0445
     let geo = try GeographicCoordinate(latitude: 40.6892, longitude: -74.0445)
     let utm = try geo.utm
@@ -68,8 +68,8 @@ struct UTMCoordinateTests {
 
   // MARK: - Conversion Back to Geographic
 
-  @Test("UTM to geographic round trip")
-  func utmToGeographic() throws {
+  @Test
+  func `UTM to geographic round trip`() throws {
     let utm = try UTMCoordinate(
       zone: 18,
       hemisphere: .north,
@@ -82,8 +82,8 @@ struct UTMCoordinateTests {
     #expect(geo.longitude.isApproximatelyEqual(to: -74.01, absoluteTolerance: 0.02))
   }
 
-  @Test("Geographic to UTM to geographic round trip preserves coordinates")
-  func geoToUtmToGeoRoundTrip() throws {
+  @Test
+  func `Geographic to UTM to geographic round trip preserves coordinates`() throws {
     let original = try GeographicCoordinate(latitude: 48.8566, longitude: 2.3522)
     let utm = try original.utm
     let recovered = try utm.geographic
@@ -93,8 +93,8 @@ struct UTMCoordinateTests {
     )
   }
 
-  @Test("Southern hemisphere UTM to geographic")
-  func southernHemisphere() throws {
+  @Test
+  func `Southern hemisphere UTM to geographic`() throws {
     let original = try GeographicCoordinate(latitude: -33.8688, longitude: 151.2093)
     let utm = try original.utm
     #expect(utm.hemisphere == .south)
@@ -107,28 +107,28 @@ struct UTMCoordinateTests {
 
   // MARK: - Central Meridian Property
 
-  @Test("Central meridian for zone 18 is -75")
-  func centralMeridianZone18() throws {
+  @Test
+  func `Central meridian for zone 18 is -75`() throws {
     let utm = try UTMCoordinate(zone: 18, hemisphere: .north, easting: 500000, northing: 0)
     #expect(utm.centralMeridian.isApproximatelyEqual(to: -75, absoluteTolerance: 1e-6))
   }
 
-  @Test("Central meridian for zone 31 is 3")
-  func centralMeridianZone31() throws {
+  @Test
+  func `Central meridian for zone 31 is 3`() throws {
     let utm = try UTMCoordinate(zone: 31, hemisphere: .north, easting: 500000, northing: 0)
     #expect(utm.centralMeridian.isApproximatelyEqual(to: 3, absoluteTolerance: 1e-6))
   }
 
-  @Test("Central meridian for zone 1 is -177")
-  func centralMeridianZone1() throws {
+  @Test
+  func `Central meridian for zone 1 is -177`() throws {
     let utm = try UTMCoordinate(zone: 1, hemisphere: .north, easting: 500000, northing: 0)
     #expect(utm.centralMeridian.isApproximatelyEqual(to: -177, absoluteTolerance: 1e-6))
   }
 
   // MARK: - MGRS Conversion
 
-  @Test("UTM to MGRS string")
-  func utmToMGRS() throws {
+  @Test
+  func `UTM to MGRS string`() throws {
     let utm = try UTMCoordinate(
       zone: 18,
       hemisphere: .north,
@@ -140,8 +140,8 @@ struct UTMCoordinateTests {
     #expect(mgrsString.count > 5)
   }
 
-  @Test("UTM to MGRS at different precisions")
-  func utmToMGRSPrecisions() throws {
+  @Test
+  func `UTM to MGRS at different precisions`() throws {
     let utm = try UTMCoordinate(
       zone: 18,
       hemisphere: .north,
@@ -155,15 +155,15 @@ struct UTMCoordinateTests {
 
   // MARK: - Equatable and Hashable
 
-  @Test("Equal UTM coordinates are equatable")
-  func equatable() throws {
+  @Test
+  func `Equal UTM coordinates are equatable`() throws {
     let a = try UTMCoordinate(zone: 18, hemisphere: .north, easting: 583960, northing: 4507523)
     let b = try UTMCoordinate(zone: 18, hemisphere: .north, easting: 583960, northing: 4507523)
     #expect(a == b)
   }
 
-  @Test("Different UTM coordinates are not equal")
-  func notEqual() throws {
+  @Test
+  func `Different UTM coordinates are not equal`() throws {
     let a = try UTMCoordinate(zone: 18, hemisphere: .north, easting: 583960, northing: 4507523)
     let b = try UTMCoordinate(zone: 18, hemisphere: .north, easting: 500000, northing: 4507523)
     #expect(a != b)

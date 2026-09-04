@@ -2,27 +2,27 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("GeographicCoordinate Tests")
-struct GeographicCoordinateTests {
+@Suite
+struct `GeographicCoordinate Tests` {
 
   // MARK: - Valid Creation
 
-  @Test("Create coordinate with valid values")
-  func validCreation() throws {
+  @Test
+  func `Create coordinate with valid values`() throws {
     let coord = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     #expect(coord.latitude.isApproximatelyEqual(to: 40.7128, absoluteTolerance: 1e-6))
     #expect(coord.longitude.isApproximatelyEqual(to: -74.006, absoluteTolerance: 1e-6))
   }
 
-  @Test("Create coordinate at origin (0, 0)")
-  func originCreation() throws {
+  @Test
+  func `Create coordinate at origin (0, 0)`() throws {
     let coord = try GeographicCoordinate(latitude: 0, longitude: 0)
     #expect(coord.latitude.isApproximatelyEqual(to: 0, absoluteTolerance: 1e-6))
     #expect(coord.longitude.isApproximatelyEqual(to: 0, absoluteTolerance: 1e-6))
   }
 
-  @Test("Create coordinate at extreme valid values")
-  func extremeValidValues() throws {
+  @Test
+  func `Create coordinate at extreme valid values`() throws {
     let north = try GeographicCoordinate(latitude: 90, longitude: 0)
     #expect(north.latitude == 90)
 
@@ -35,22 +35,22 @@ struct GeographicCoordinateTests {
 
   // MARK: - Poles
 
-  @Test("North pole (90, 0)")
-  func northPole() throws {
+  @Test
+  func `North pole (90, 0)`() throws {
     let coord = try GeographicCoordinate(latitude: 90, longitude: 0)
     #expect(coord.latitude == 90)
     #expect(coord.longitude == 0)
   }
 
-  @Test("South pole (-90, 0)")
-  func southPole() throws {
+  @Test
+  func `South pole (-90, 0)`() throws {
     let coord = try GeographicCoordinate(latitude: -90, longitude: 0)
     #expect(coord.latitude == -90)
     #expect(coord.longitude == 0)
   }
 
-  @Test("North pole with arbitrary longitude")
-  func northPoleArbitraryLongitude() throws {
+  @Test
+  func `North pole with arbitrary longitude`() throws {
     let coord = try GeographicCoordinate(latitude: 90, longitude: 123)
     #expect(coord.latitude == 90)
     // Longitude is normalized but still stored
@@ -59,29 +59,29 @@ struct GeographicCoordinateTests {
 
   // MARK: - Invalid Latitude
 
-  @Test("Invalid latitude 91 throws invalidLatitude")
-  func invalidLatitude91() {
+  @Test
+  func `Invalid latitude 91 throws invalidLatitude`() {
     #expect(throws: SwiftGeographicError.invalidLatitude(91)) {
       try GeographicCoordinate(latitude: 91, longitude: 0)
     }
   }
 
-  @Test("Invalid latitude -91 throws invalidLatitude")
-  func invalidLatitudeMinus91() {
+  @Test
+  func `Invalid latitude -91 throws invalidLatitude`() {
     #expect(throws: SwiftGeographicError.invalidLatitude(-91)) {
       try GeographicCoordinate(latitude: -91, longitude: 0)
     }
   }
 
-  @Test("Invalid latitude NaN throws invalidLatitude")
-  func invalidLatitudeNaN() {
+  @Test
+  func `Invalid latitude NaN throws invalidLatitude`() {
     #expect(throws: (any Error).self) {
       try GeographicCoordinate(latitude: .nan, longitude: 0)
     }
   }
 
-  @Test("Invalid latitude infinity throws invalidLatitude")
-  func invalidLatitudeInfinity() {
+  @Test
+  func `Invalid latitude infinity throws invalidLatitude`() {
     #expect(throws: (any Error).self) {
       try GeographicCoordinate(latitude: .infinity, longitude: 0)
     }
@@ -89,16 +89,16 @@ struct GeographicCoordinateTests {
 
   // MARK: - Invalid Longitude
 
-  @Test("Invalid longitude 360 throws invalidLongitude")
-  func invalidLongitude360() {
+  @Test
+  func `Invalid longitude 360 throws invalidLongitude`() {
     // longitude range is [-180, 180], so 360 is invalid
     #expect(throws: SwiftGeographicError.invalidLongitude(360)) {
       try GeographicCoordinate(latitude: 0, longitude: 360)
     }
   }
 
-  @Test("Invalid longitude below -180 throws invalidLongitude")
-  func invalidLongitudeBelow() {
+  @Test
+  func `Invalid longitude below -180 throws invalidLongitude`() {
     #expect(throws: SwiftGeographicError.invalidLongitude(-181)) {
       try GeographicCoordinate(latitude: 0, longitude: -181)
     }
@@ -106,30 +106,30 @@ struct GeographicCoordinateTests {
 
   // MARK: - Longitude Validation
 
-  @Test("Longitude 181 throws invalidLongitude")
-  func longitude181Throws() {
+  @Test
+  func `Longitude 181 throws invalidLongitude`() {
     #expect(throws: SwiftGeographicError.invalidLongitude(181)) {
       try GeographicCoordinate(latitude: 0, longitude: 181)
     }
   }
 
-  @Test("Longitude within [-180, 180] is unchanged")
-  func longitudeNoNormalization() throws {
+  @Test
+  func `Longitude within [-180, 180] is unchanged`() throws {
     let coord = try GeographicCoordinate(latitude: 0, longitude: 45)
     #expect(coord.longitude.isApproximatelyEqual(to: 45, absoluteTolerance: 1e-10))
   }
 
   // MARK: - Equatable and Hashable
 
-  @Test("Equal coordinates are equatable")
-  func equatable() throws {
+  @Test
+  func `Equal coordinates are equatable`() throws {
     let a = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let b = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     #expect(a == b)
   }
 
-  @Test("Different coordinates are not equal")
-  func notEqual() throws {
+  @Test
+  func `Different coordinates are not equal`() throws {
     let a = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let b = try GeographicCoordinate(latitude: 51.5074, longitude: -0.1278)
     #expect(a != b)
@@ -137,8 +137,8 @@ struct GeographicCoordinateTests {
 
   // MARK: - Conversion to UTM
 
-  @Test("Conversion to UTM for a known point")
-  func conversionToUTM() throws {
+  @Test
+  func `Conversion to UTM for a known point`() throws {
     let coord = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let utm = try coord.utm
     #expect(utm.zone == 18)
@@ -148,8 +148,8 @@ struct GeographicCoordinateTests {
     #expect(utm.northing.isApproximatelyEqual(to: 4507351, absoluteTolerance: 100))
   }
 
-  @Test("Conversion to UTM for southern hemisphere")
-  func conversionToUTMSouth() throws {
+  @Test
+  func `Conversion to UTM for southern hemisphere`() throws {
     let coord = try GeographicCoordinate(latitude: -33.8688, longitude: 151.2093)
     let utm = try coord.utm
     #expect(utm.hemisphere == .south)
@@ -158,8 +158,8 @@ struct GeographicCoordinateTests {
 
   // MARK: - Conversion to UPS
 
-  @Test("Conversion to UPS for north polar point")
-  func conversionToUPS() throws {
+  @Test
+  func `Conversion to UPS for north polar point`() throws {
     let coord = try GeographicCoordinate(latitude: 85, longitude: 0)
     let ups = try coord.ups
     #expect(ups.hemisphere == .north)
@@ -169,8 +169,8 @@ struct GeographicCoordinateTests {
 
   // MARK: - Conversion to MGRS
 
-  @Test("Conversion to MGRS string")
-  func conversionToMGRS() throws {
+  @Test
+  func `Conversion to MGRS string`() throws {
     let coord = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let mgrsString = try coord.mgrs().gridReference
     // Should start with "18S" or "18T" (zone 18, band T for ~40.7N)
@@ -179,8 +179,8 @@ struct GeographicCoordinateTests {
     #expect(mgrsString.count > 5, "MGRS string should contain digits")
   }
 
-  @Test("Conversion to MGRS coordinate")
-  func conversionToMGRSCoordinate() throws {
+  @Test
+  func `Conversion to MGRS coordinate`() throws {
     let coord = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let mgrs = try coord.mgrs()
     #expect(mgrs.precision == .oneMeter)
@@ -188,8 +188,8 @@ struct GeographicCoordinateTests {
     #expect(!mgrs.squareIdentifier.isEmpty)
   }
 
-  @Test("MGRS at various precisions")
-  func mgrsVariousPrecisions() throws {
+  @Test
+  func `MGRS at various precisions`() throws {
     let coord = try GeographicCoordinate(latitude: 51.5074, longitude: -0.1278)
     let precisions: [MGRSPrecision] = [
       .hundredKilometer, .tenKilometer, .oneKilometer,
@@ -208,8 +208,8 @@ struct GeographicCoordinateTests {
 
   // MARK: - Equator Edge Cases
 
-  @Test("Equator at various longitudes round-trips through UTM")
-  func equatorUTMRoundTrip() throws {
+  @Test
+  func `Equator at various longitudes round-trips through UTM`() throws {
     for lon in stride(from: -180.0, through: 150.0, by: 15.0) {
       let original = try GeographicCoordinate(latitude: 0, longitude: lon)
       let utm = try original.utm
@@ -227,8 +227,8 @@ struct GeographicCoordinateTests {
     }
   }
 
-  @Test("Equator has northing near 0 in northern hemisphere")
-  func equatorNorthing() throws {
+  @Test
+  func `Equator has northing near 0 in northern hemisphere`() throws {
     let coord = try GeographicCoordinate(latitude: 0, longitude: 3)
     let utm = try coord.utm
     #expect(utm.hemisphere == .north)
@@ -237,8 +237,8 @@ struct GeographicCoordinateTests {
 
   // MARK: - Prime Meridian Edge Cases
 
-  @Test("Prime meridian at various latitudes round-trips through UTM")
-  func primeMeridianUTMRoundTrip() throws {
+  @Test
+  func `Prime meridian at various latitudes round-trips through UTM`() throws {
     for lat in stride(from: -75.0, through: 75.0, by: 15.0) {
       let original = try GeographicCoordinate(latitude: lat, longitude: 0)
       let utm = try original.utm
@@ -254,21 +254,21 @@ struct GeographicCoordinateTests {
     }
   }
 
-  @Test("Prime meridian falls in zone 31")
-  func primeMeridianZone() {
+  @Test
+  func `Prime meridian falls in zone 31`() {
     #expect(UTMUPS.standardZone(latitude: 0, longitude: 0) == 31)
   }
 
   // MARK: - Antimeridian Edge Cases
 
-  @Test("Antimeridian longitude -180 is handled correctly")
-  func antimeridian180() throws {
+  @Test
+  func `Antimeridian longitude -180 is handled correctly`() throws {
     let coord = try GeographicCoordinate(latitude: 0, longitude: -180)
     #expect(coord.longitude == 180 || coord.longitude == -180)
   }
 
-  @Test("Antimeridian round trip at lon = 179")
-  func antimeridianRoundTrip179() throws {
+  @Test
+  func `Antimeridian round trip at lon = 179`() throws {
     let original = try GeographicCoordinate(latitude: 30, longitude: 179)
     let utm = try original.utm
     let recovered = try utm.geographic
@@ -276,8 +276,8 @@ struct GeographicCoordinateTests {
     #expect(recovered.longitude.isApproximatelyEqual(to: 179, absoluteTolerance: 1e-6))
   }
 
-  @Test("Antimeridian round trip at lon = -179")
-  func antimeridianRoundTripMinus179() throws {
+  @Test
+  func `Antimeridian round trip at lon = -179`() throws {
     let original = try GeographicCoordinate(latitude: 30, longitude: -179)
     let utm = try original.utm
     let recovered = try utm.geographic
@@ -287,8 +287,8 @@ struct GeographicCoordinateTests {
 
   // MARK: - Small Longitude Offsets
 
-  @Test("Very small longitude offset from central meridian")
-  func smallLongitudeOffset() throws {
+  @Test
+  func `Very small longitude offset from central meridian`() throws {
     let lon = 3.0 + 1e-10  // Tiny offset from CM of zone 31
     let coord = try GeographicCoordinate(latitude: 45, longitude: lon)
     let utm = try coord.utm

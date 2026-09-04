@@ -20,37 +20,37 @@ private func expectLongitudeEqual(
   )
 }
 
-@Suite("PolarStereographic Projection Tests")
-struct PolarStereographicTests {
+@Suite
+struct `PolarStereographic Projection Tests` {
 
   private let ps = PolarStereographic.ups
 
   // MARK: - Forward Near Poles
 
-  @Test("Near north pole (89.9999) projects very close to (0, 0)")
-  func nearNorthPoleForward() {
+  @Test
+  func `Near north pole (89.9999) projects very close to (0, 0)`() {
     let result = ps.forward(isNorth: true, latitude: 89.9999, longitude: 0)
     #expect(result.x.isApproximatelyEqual(to: 0, absoluteTolerance: 15))
     #expect(result.y.isApproximatelyEqual(to: 0, absoluteTolerance: 15))
   }
 
-  @Test("Near south pole (-89.9999) projects very close to (0, 0)")
-  func nearSouthPoleForward() {
+  @Test
+  func `Near south pole (-89.9999) projects very close to (0, 0)`() {
     let result = ps.forward(isNorth: false, latitude: -89.9999, longitude: 0)
     #expect(result.x.isApproximatelyEqual(to: 0, absoluteTolerance: 15))
     #expect(result.y.isApproximatelyEqual(to: 0, absoluteTolerance: 15))
   }
 
-  @Test("Scale at near-pole equals approximately k0 (0.994)")
-  func scaleNearPole() {
+  @Test
+  func `Scale at near-pole equals approximately k0 (0.994)`() {
     let result = ps.forward(isNorth: true, latitude: 89.9999, longitude: 0)
     #expect(result.scale.isApproximatelyEqual(to: 0.994, absoluteTolerance: 1e-3))
   }
 
   // MARK: - Forward at Polar Latitudes
 
-  @Test("Various longitudes at 85N produce same distance from pole")
-  func variousLongitudesAt85N() {
+  @Test
+  func `Various longitudes at 85N produce same distance from pole`() {
     let longitudes: [Double] = [0, 45, 90, 135, -45, -90, -135]
     var distances: [Double] = []
     for lon in longitudes {
@@ -67,8 +67,8 @@ struct PolarStereographicTests {
     }
   }
 
-  @Test("Forward at 85N, longitude 0 has negative y (north convention)")
-  func forward85NLongitude0() {
+  @Test
+  func `Forward at 85N, longitude 0 has negative y (north convention)`() {
     let result = ps.forward(isNorth: true, latitude: 85, longitude: 0)
     // At longitude 0, x should be ~0
     #expect(result.x.isApproximatelyEqual(to: 0, absoluteTolerance: 1e-3))
@@ -76,8 +76,8 @@ struct PolarStereographicTests {
     #expect(result.y < 0, "y should be negative for north pole at lon=0")
   }
 
-  @Test("Forward at 85S, longitude 0 has positive y (south convention)")
-  func forward85SLongitude0() {
+  @Test
+  func `Forward at 85S, longitude 0 has positive y (south convention)`() {
     let result = ps.forward(isNorth: false, latitude: -85, longitude: 0)
     #expect(result.x.isApproximatelyEqual(to: 0, absoluteTolerance: 1e-3))
     #expect(result.y > 0, "y should be positive for south pole at lon=0")
@@ -85,8 +85,8 @@ struct PolarStereographicTests {
 
   // MARK: - Forward-Reverse Round Trip
 
-  @Test("Forward-reverse round trip at north polar latitudes")
-  func roundTripNorthPolar() {
+  @Test
+  func `Forward-reverse round trip at north polar latitudes`() {
     let testPoints: [(lat: Double, lon: Double)] = [
       (89, 0),
       (85, 0),
@@ -112,8 +112,8 @@ struct PolarStereographicTests {
     }
   }
 
-  @Test("Forward-reverse round trip at south polar latitudes")
-  func roundTripSouthPolar() {
+  @Test
+  func `Forward-reverse round trip at south polar latitudes`() {
     let testPoints: [(lat: Double, lon: Double)] = [
       (-89, 0),
       (-85, 0),
@@ -141,22 +141,22 @@ struct PolarStereographicTests {
 
   // MARK: - Reverse at Origin
 
-  @Test("Reverse at origin yields north pole")
-  func reverseNorthAtOrigin() {
+  @Test
+  func `Reverse at origin yields north pole`() {
     let result = ps.reverse(isNorth: true, easting: 0, northing: 0)
     #expect(result.x.isApproximatelyEqual(to: 90, absoluteTolerance: 1e-9))
   }
 
-  @Test("Reverse at origin yields south pole")
-  func reverseSouthAtOrigin() {
+  @Test
+  func `Reverse at origin yields south pole`() {
     let result = ps.reverse(isNorth: false, easting: 0, northing: 0)
     #expect(result.x.isApproximatelyEqual(to: -90, absoluteTolerance: 1e-9))
   }
 
   // MARK: - Scale and Convergence
 
-  @Test("Convergence at north polar latitudes equals the longitude")
-  func convergenceNorthPolar() {
+  @Test
+  func `Convergence at north polar latitudes equals the longitude`() {
     let longitudes: [Double] = [0, 30, 90, -45]
     for lon in longitudes {
       let result = ps.forward(isNorth: true, latitude: 85, longitude: lon)
@@ -167,8 +167,8 @@ struct PolarStereographicTests {
     }
   }
 
-  @Test("Convergence at south polar latitudes equals negated longitude")
-  func convergenceSouthPolar() {
+  @Test
+  func `Convergence at south polar latitudes equals negated longitude`() {
     let longitudes: [Double] = [0, 30, 90, -45]
     for lon in longitudes {
       let result = ps.forward(isNorth: false, latitude: -85, longitude: lon)
@@ -181,8 +181,8 @@ struct PolarStereographicTests {
 
   // MARK: - Distance from Pole Increases with Colatitude
 
-  @Test("Distance from pole increases as latitude moves away from pole")
-  func distanceIncreasesWithColatitude() {
+  @Test
+  func `Distance from pole increases as latitude moves away from pole`() {
     var previousDistance = 0.0
     for lat in [89.0, 88.0, 87.0, 86.0, 85.0] {
       let result = ps.forward(isNorth: true, latitude: lat, longitude: 0)

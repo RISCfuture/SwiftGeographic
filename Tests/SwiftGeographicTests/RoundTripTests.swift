@@ -2,13 +2,13 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("Round Trip Tests")
-struct RoundTripTests {
+@Suite
+struct `Round Trip Tests` {
 
   // MARK: - Geographic -> UTM -> Geographic
 
-  @Test("Geographic to UTM to Geographic at grid of points within UTM range")
-  func geoUTMGeoGrid() throws {
+  @Test
+  func `Geographic to UTM to Geographic at grid of points within UTM range`() throws {
     // UTM covers -80 to 84 latitude; skip -180 (antimeridian round-trips to 180)
     for lat in stride(from: -75.0, through: 75.0, by: 15.0) {
       for lon in stride(from: -150.0, through: 150.0, by: 30.0) {
@@ -27,8 +27,8 @@ struct RoundTripTests {
     }
   }
 
-  @Test("Geographic to UTM to Geographic near equator")
-  func geoUTMGeoEquator() throws {
+  @Test
+  func `Geographic to UTM to Geographic near equator`() throws {
     for lon in stride(from: -170.0, through: 170.0, by: 10.0) {
       let original = try GeographicCoordinate(latitude: 0, longitude: lon)
       let utm = try original.utm
@@ -46,8 +46,8 @@ struct RoundTripTests {
 
   // MARK: - Geographic -> MGRS -> Geographic
 
-  @Test("Geographic to MGRS to Geographic at 1m precision")
-  func geoMGRSGeo1m() throws {
+  @Test
+  func `Geographic to MGRS to Geographic at 1m precision`() throws {
     let testPoints: [(lat: Double, lon: Double)] = [
       (0, 0), (40.7128, -74.006), (51.5074, -0.1278),
       (-33.8688, 151.2093), (60, 5), (30, -90),
@@ -72,8 +72,8 @@ struct RoundTripTests {
     }
   }
 
-  @Test("Geographic to MGRS to Geographic at 10m precision")
-  func geoMGRSGeo10m() throws {
+  @Test
+  func `Geographic to MGRS to Geographic at 10m precision`() throws {
     let testPoints: [(lat: Double, lon: Double)] = [
       (0, 0), (40.7128, -74.006), (-33.8688, 151.2093)
     ]
@@ -93,8 +93,8 @@ struct RoundTripTests {
     }
   }
 
-  @Test("Geographic to MGRS to Geographic at 100m precision")
-  func geoMGRSGeo100m() throws {
+  @Test
+  func `Geographic to MGRS to Geographic at 100m precision`() throws {
     let original = try GeographicCoordinate(latitude: 40.7128, longitude: -74.006)
     let mgrs = try original.mgrs(precision: .hundredMeter)
     let recovered = try mgrs.geographic
@@ -109,8 +109,8 @@ struct RoundTripTests {
 
   // MARK: - TM Forward -> Reverse at Grid of Points
 
-  @Test("TransverseMercator forward-reverse round trip at a grid of points")
-  func tmForwardReverseGrid() {
+  @Test
+  func `TransverseMercator forward-reverse round trip at a grid of points`() {
     let tm = TransverseMercator.utm
     let centralMeridians: [Double] = [-177, -75, -3, 3, 75, 177]
     let latitudes: [Double] = [-80, -60, -30, 0, 30, 60, 80]
@@ -138,8 +138,8 @@ struct RoundTripTests {
 
   // MARK: - PS Forward -> Reverse at Polar Points
 
-  @Test("PolarStereographic forward-reverse round trip at polar points")
-  func psForwardReverseGrid() {
+  @Test
+  func `PolarStereographic forward-reverse round trip at polar points`() {
     let ps = PolarStereographic.ups
 
     // North pole points
@@ -181,8 +181,8 @@ struct RoundTripTests {
 
   // MARK: - Full UTMUPS Forward-Reverse Grid
 
-  @Test("UTMUPS forward-reverse round trip at a wide grid of points")
-  func utmupsForwardReverseGrid() throws {
+  @Test
+  func `UTMUPS forward-reverse round trip at a wide grid of points`() throws {
     for lat in stride(from: -75.0, through: 75.0, by: 15.0) {
       for lon in stride(from: -180.0, through: 150.0, by: 30.0) {
         let result = try UTMUPS.forward(latitude: lat, longitude: lon)
@@ -209,8 +209,8 @@ struct RoundTripTests {
 
   // MARK: - MGRS String Stability
 
-  @Test("MGRS string is stable across encode-decode-encode cycle")
-  func mgrsStringStability() throws {
+  @Test
+  func `MGRS string is stable across encode-decode-encode cycle`() throws {
     let testPoints: [(lat: Double, lon: Double)] = [
       (40.7128, -74.006), (51.5074, -0.1278), (35.6762, 139.6503)
     ]
