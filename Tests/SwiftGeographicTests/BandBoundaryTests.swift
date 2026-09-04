@@ -9,8 +9,8 @@ import Testing
 ///
 /// Band boundaries occur at latitudes: -72, -64, -56, -48, -40, -32, -24, -16,
 /// -8, 0, 8, 16, 24, 32, 40, 48, 56, 64, 72 (the X band extends to 84).
-@Suite("Band Boundary Tests")
-struct BandBoundaryTests {
+@Suite
+struct `Band Boundary Tests` {
 
   /// The latitude band letters C through X (skipping I and O), corresponding
   /// to 8-degree bands from 80S to 84N.
@@ -51,8 +51,8 @@ struct BandBoundaryTests {
 
   // MARK: - Band Boundary Tests (both sides of each boundary)
 
-  @Test("Band letter correct just below and above each 8-degree boundary")
-  func bandLetterAtBoundaries() throws {
+  @Test
+  func `Band letter correct just below and above each 8-degree boundary`() throws {
     let testLongitudes: [Double] = [0, 45, 90, -90]
     let offset = 0.001
 
@@ -101,8 +101,8 @@ struct BandBoundaryTests {
     }
   }
 
-  @Test("Geographic round-trip recovers near band boundaries")
-  func roundTripAtBoundaries() throws {
+  @Test
+  func `Geographic round-trip recovers near band boundaries`() throws {
     let testLongitudes: [Double] = [0, 45, 90, -90]
     let offset = 0.001
     let tolerance = 0.001  // degrees
@@ -144,8 +144,8 @@ struct BandBoundaryTests {
 
   // MARK: - Southern Hemisphere Explicit Tests
 
-  @Test("Band letter correct for southern hemisphere interior points")
-  func southernHemisphereBandLetters() throws {
+  @Test
+  func `Band letter correct for southern hemisphere interior points`() throws {
     let southLatitudes: [Double] = [
       -71.999, -63.999, -55.999, -47.999, -39.999,
       -31.999, -23.999, -15.999, -7.999, -0.001

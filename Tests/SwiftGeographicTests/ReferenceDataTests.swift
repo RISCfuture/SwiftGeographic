@@ -13,8 +13,8 @@ import Testing
 /// - Turbo87/utm (Python UTM zone selection library)
 /// - chrisveness/geodesy (JavaScript geodesy library, Karney's method)
 /// - PyGeodesy (Python geodesy library, Svalbard MGRS zones)
-@Suite("Reference Data Tests")
-struct ReferenceDataTests {
+@Suite
+struct `Reference Data Tests` {
 
   // MARK: - 1. NGA.SIG.0012 UPS Forward Vectors (Section 10.2)
 
@@ -22,8 +22,8 @@ struct ReferenceDataTests {
   /// WGS84 ellipsoid, UPS projection. Verifies easting/northing via
   /// `UTMUPS.forward` (zone 0) and scale/convergence via
   /// `PolarStereographic.ups.forward`.
-  @Test("NGA.SIG.0012 UPS forward projection for north-hemisphere points")
-  func ngaUPSForward() throws {
+  @Test
+  func `NGA.SIG.0012 UPS forward projection for north-hemisphere points`() throws {
     struct UPSVector {
       let longitude: Double
       let latitude: Double
@@ -136,8 +136,8 @@ struct ReferenceDataTests {
   /// Test vectors from NGA's official MGRS library (MIT license).
   /// Svalbard chain: lat 72-78, lon 9-14. Tests MGRS parsing at
   /// precision levels from GZD through 1m.
-  @Test("NGA mgrs-java precision chain for Svalbard (33X)")
-  func ngaMGRSPrecisionChain() throws {
+  @Test
+  func `NGA mgrs-java precision chain for Svalbard (33X)`() throws {
     struct MGRSPrecisionVector {
       let mgrs: String
       let expectedLatitude: Double
@@ -214,8 +214,8 @@ struct ReferenceDataTests {
   }
 
   /// NGA mgrs-java coordinate-to-MGRS test points.
-  @Test("NGA mgrs-java coordinate-to-MGRS forward conversion")
-  func ngaMGRSForward() throws {
+  @Test
+  func `NGA mgrs-java coordinate-to-MGRS forward conversion`() throws {
     struct ForwardVector {
       let latitude: Double
       let longitude: Double
@@ -257,8 +257,8 @@ struct ReferenceDataTests {
 
   /// Zone selection tests from the Turbo87/utm Python library.
   /// Norway exception: zone 32V covers lat 56-64, lon 3-12.
-  @Test("Turbo87/utm Norway zone 32V selection")
-  func norwayZoneSelection() {
+  @Test
+  func `Turbo87/utm Norway zone 32V selection`() {
     // Inside Norway exception (zone 32V)
     #expect(UTMUPS.standardZone(latitude: 56, longitude: 3) == 32)
     #expect(UTMUPS.standardZone(latitude: 56, longitude: 6) == 32)
@@ -274,8 +274,8 @@ struct ReferenceDataTests {
 
   /// Zone selection tests from the Turbo87/utm Python library.
   /// Svalbard exceptions: zones 31/33/35/37 for lat 72-84.
-  @Test("Turbo87/utm Svalbard zone selection")
-  func svalbardZoneSelection() {
+  @Test
+  func `Turbo87/utm Svalbard zone selection`() {
     // Zone 31: lon [0, 9)
     #expect(UTMUPS.standardZone(latitude: 72, longitude: 0) == 31)
     #expect(UTMUPS.standardZone(latitude: 72, longitude: 5.999999) == 31)
@@ -298,8 +298,8 @@ struct ReferenceDataTests {
 
   /// UTM test vectors from the chrisveness/geodesy JavaScript library,
   /// using Karney's method. Tolerance: 1m for easting/northing.
-  @Test("chrisveness/geodesy UTM known coordinate points")
-  func chrisvenessUTMPoints() throws {
+  @Test
+  func `chrisveness/geodesy UTM known coordinate points`() throws {
     struct UTMVector {
       let latitude: Double
       let longitude: Double
@@ -402,8 +402,8 @@ struct ReferenceDataTests {
 
   /// All 11 north-hemisphere UPS forward test vectors from NGA.SIG.0012 Section 10.2.
   /// Uses PolarStereographic.ups.forward directly, adding false easting/northing of 2,000,000.
-  @Test("NGA.SIG.0012 UPS forward full (11 north-hemisphere points)")
-  func ngaUPSForwardFull() {
+  @Test
+  func `NGA.SIG.0012 UPS forward full (11 north-hemisphere points)`() {
     struct UPSVector {
       let longitude: Double
       let latitude: Double
@@ -575,8 +575,8 @@ struct ReferenceDataTests {
 
   /// 25 south-pole UPS reverse test vectors from NGA.SIG.0012 Section 10.3.
   /// Uses PolarStereographic.ups.reverse with isNorth=false.
-  @Test("NGA.SIG.0012 UPS reverse south-pole 5x5 grid")
-  func ngaUPSReverseSouthGrid() {
+  @Test
+  func `NGA.SIG.0012 UPS reverse south-pole 5x5 grid`() {
     struct UPSReverseVector {
       let easting: Double
       let northing: Double
@@ -799,8 +799,8 @@ struct ReferenceDataTests {
 
   /// Three UPS forward test vectors from DMA Technical Manual 8358.2.
   /// Uses PolarStereographic.ups.forward with false easting/northing of 2,000,000.
-  @Test("DMA TM 8358.2 UPS forward projection")
-  func dmaUPSForward() {
+  @Test
+  func `DMA TM 8358.2 UPS forward projection`() {
     struct DMAVector {
       let latitude: Double
       let longitude: Double
@@ -875,8 +875,8 @@ struct ReferenceDataTests {
 
   /// Test vectors from PyGeodesy verifying that Svalbard zone exceptions
   /// produce correct MGRS grid zone designators.
-  @Test("PyGeodesy Svalbard MGRS zone designators")
-  func pyGeodesySvalbardMGRS() throws {
+  @Test
+  func `PyGeodesy Svalbard MGRS zone designators`() throws {
     struct SvalbardVector {
       let latitude: Double
       let longitude: Double

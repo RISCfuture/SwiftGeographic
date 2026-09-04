@@ -3,11 +3,11 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("Measurement Tests")
-struct MeasurementTests {
+@Suite
+struct `Measurement Tests` {
 
-  @Test("GeographicCoordinate angle measurements")
-  func geoMeasurements() throws {
+  @Test
+  func `GeographicCoordinate angle measurements`() throws {
     let coord = try GeographicCoordinate(latitude: 48.8566, longitude: 2.3522)
     #expect(
       coord.latitudeAngle.value.isApproximatelyEqual(to: 48.8566, absoluteTolerance: 1e-10)
@@ -23,8 +23,8 @@ struct MeasurementTests {
     #expect(latRad.value.isApproximatelyEqual(to: 0.85277, absoluteTolerance: 0.001))
   }
 
-  @Test("UTMCoordinate distance measurements")
-  func utmMeasurements() throws {
+  @Test
+  func `UTMCoordinate distance measurements`() throws {
     let utm = try UTMCoordinate(
       zone: 18,
       hemisphere: .north,
@@ -39,8 +39,8 @@ struct MeasurementTests {
     #expect(eastingKm.value.isApproximatelyEqual(to: 583.960, absoluteTolerance: 0.001))
   }
 
-  @Test("MGRSPrecision resolution measurement")
-  func precisionMeasurement() {
+  @Test
+  func `MGRSPrecision resolution measurement`() {
     let prec = MGRSPrecision.oneMeter
     #expect(prec.resolutionDistance.value.isApproximatelyEqual(to: 1, absoluteTolerance: 1e-10))
     #expect(prec.resolutionDistance.unit == .meters)

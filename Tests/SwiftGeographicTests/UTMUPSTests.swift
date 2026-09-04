@@ -2,13 +2,13 @@ import Numerics
 import Testing
 @testable import SwiftGeographic
 
-@Suite("UTMUPS Tests")
-struct UTMUPSTests {
+@Suite
+struct `UTMUPS Tests` {
 
   // MARK: - Standard Zone Determination
 
-  @Test("Standard zone for typical coordinates")
-  func standardZoneTypical() {
+  @Test
+  func `Standard zone for typical coordinates`() {
     // New York City: zone 18
     #expect(UTMUPS.standardZone(latitude: 40.7128, longitude: -74.006) == 18)
     // London: zone 30
@@ -21,117 +21,117 @@ struct UTMUPSTests {
     #expect(UTMUPS.standardZone(latitude: 0, longitude: 0) == 31)
   }
 
-  @Test("Standard zone at western edge of zone 1 (longitude -180)")
-  func standardZoneWestEdge() {
+  @Test
+  func `Standard zone at western edge of zone 1 (longitude -180)`() {
     #expect(UTMUPS.standardZone(latitude: 0, longitude: -180) == 1)
   }
 
   // MARK: - Norway Exception
 
-  @Test("Norway exception: (60, 5) should be zone 32")
-  func norwayException() {
+  @Test
+  func `Norway exception: (60, 5) should be zone 32`() {
     // Normally lon=5 would be zone 31 (3W to 3E -> actually lon 0..6 is zone 31)
     // But Norway exception moves (56-64N, lon >= 3) from zone 31 to zone 32
     #expect(UTMUPS.standardZone(latitude: 60, longitude: 5) == 32)
   }
 
-  @Test("Norway exception does not apply below 56N")
-  func norwayExceptionNotBelow56() {
+  @Test
+  func `Norway exception does not apply below 56N`() {
     // At latitude 55 (below the Norway exception range), lon=5 is zone 31
     #expect(UTMUPS.standardZone(latitude: 55, longitude: 5) == 31)
   }
 
-  @Test("Norway exception does not apply at or above 64N")
-  func norwayExceptionNotAbove64() {
+  @Test
+  func `Norway exception does not apply at or above 64N`() {
     // At latitude 64, the Norway exception for band V no longer applies
     #expect(UTMUPS.standardZone(latitude: 64, longitude: 5) == 31)
   }
 
   // MARK: - Svalbard Exceptions
 
-  @Test("Svalbard exception: (75, 10) should be zone 33")
-  func svalbardZone33() {
+  @Test
+  func `Svalbard exception: (75, 10) should be zone 33`() {
     #expect(UTMUPS.standardZone(latitude: 75, longitude: 10) == 33)
   }
 
-  @Test("Svalbard exception: (75, 25) should be zone 35")
-  func svalbardZone35() {
+  @Test
+  func `Svalbard exception: (75, 25) should be zone 35`() {
     #expect(UTMUPS.standardZone(latitude: 75, longitude: 25) == 35)
   }
 
-  @Test("Svalbard exception: (75, 35) should be zone 37")
-  func svalbardZone37() {
+  @Test
+  func `Svalbard exception: (75, 35) should be zone 37`() {
     #expect(UTMUPS.standardZone(latitude: 75, longitude: 35) == 37)
   }
 
-  @Test("Svalbard exception: (75, 5) should be zone 31")
-  func svalbardZone31() {
+  @Test
+  func `Svalbard exception: (75, 5) should be zone 31`() {
     #expect(UTMUPS.standardZone(latitude: 75, longitude: 5) == 31)
   }
 
-  @Test("Svalbard exception does not apply below 72N")
-  func svalbardNotBelow72() {
+  @Test
+  func `Svalbard exception does not apply below 72N`() {
     #expect(UTMUPS.standardZone(latitude: 71, longitude: 10) != 33)
   }
 
   // MARK: - UPS for Polar Regions
 
-  @Test("UPS zone 0 for north polar (85N)")
-  func upsNorthPolar() {
+  @Test
+  func `UPS zone 0 for north polar (85N)`() {
     #expect(UTMUPS.standardZone(latitude: 85, longitude: 0) == 0)
   }
 
-  @Test("UPS zone 0 for south polar (-85S)")
-  func upsSouthPolar() {
+  @Test
+  func `UPS zone 0 for south polar (-85S)`() {
     #expect(UTMUPS.standardZone(latitude: -85, longitude: 0) == 0)
   }
 
-  @Test("UPS zone 0 at exactly 84N")
-  func upsAt84N() {
+  @Test
+  func `UPS zone 0 at exactly 84N`() {
     #expect(UTMUPS.standardZone(latitude: 84, longitude: 0) == 0)
   }
 
-  @Test("UTM zone for latitude just below 84N")
-  func utmJustBelow84N() {
+  @Test
+  func `UTM zone for latitude just below 84N`() {
     #expect(UTMUPS.standardZone(latitude: 83.99, longitude: 0) != 0)
   }
 
-  @Test("UPS zone 0 at exactly -80S")
-  func upsAtMinus80() {
+  @Test
+  func `UPS zone 0 at exactly -80S`() {
     #expect(UTMUPS.standardZone(latitude: -80, longitude: 0) == 0)
   }
 
-  @Test("UTM zone for latitude just above -80")
-  func utmJustAboveMinus80() {
+  @Test
+  func `UTM zone for latitude just above -80`() {
     #expect(UTMUPS.standardZone(latitude: -79.99, longitude: 0) != 0)
   }
 
   // MARK: - Central Meridian
 
-  @Test("Central meridian for zone 1 is -177")
-  func centralMeridianZone1() {
+  @Test
+  func `Central meridian for zone 1 is -177`() {
     #expect(UTMUPS.centralMeridian(zone: 1).isApproximatelyEqual(to: -177, absoluteTolerance: 1e-6))
   }
 
-  @Test("Central meridian for zone 30 is -3")
-  func centralMeridianZone30() {
+  @Test
+  func `Central meridian for zone 30 is -3`() {
     #expect(UTMUPS.centralMeridian(zone: 30).isApproximatelyEqual(to: -3, absoluteTolerance: 1e-6))
   }
 
-  @Test("Central meridian for zone 31 is 3")
-  func centralMeridianZone31() {
+  @Test
+  func `Central meridian for zone 31 is 3`() {
     #expect(UTMUPS.centralMeridian(zone: 31).isApproximatelyEqual(to: 3, absoluteTolerance: 1e-6))
   }
 
-  @Test("Central meridian for zone 60 is 177")
-  func centralMeridianZone60() {
+  @Test
+  func `Central meridian for zone 60 is 177`() {
     #expect(UTMUPS.centralMeridian(zone: 60).isApproximatelyEqual(to: 177, absoluteTolerance: 1e-6))
   }
 
   // MARK: - Forward/Reverse Round Trip
 
-  @Test("Forward-reverse round trip for UTM coordinates")
-  func forwardReverseRoundTripUTM() throws {
+  @Test
+  func `Forward-reverse round trip for UTM coordinates`() throws {
     let testPoints: [(lat: Double, lon: Double)] = [
       (0, 0),
       (40.7128, -74.006),
@@ -161,8 +161,8 @@ struct UTMUPSTests {
     }
   }
 
-  @Test("Forward-reverse round trip for UPS coordinates")
-  func forwardReverseRoundTripUPS() throws {
+  @Test
+  func `Forward-reverse round trip for UPS coordinates`() throws {
     let testPoints: [(lat: Double, lon: Double)] = [
       (85, 0),
       (85, 45),
@@ -195,23 +195,23 @@ struct UTMUPSTests {
 
   // MARK: - Forward Projection Results
 
-  @Test("Forward UTM includes false easting of 500000")
-  func forwardUTMFalseEasting() throws {
+  @Test
+  func `Forward UTM includes false easting of 500000`() throws {
     let result = try UTMUPS.forward(latitude: 0, longitude: 3)
     // At the central meridian of zone 31 (lon=3), easting should be 500000
     #expect(result.easting.isApproximatelyEqual(to: 500000, absoluteTolerance: 1))
   }
 
-  @Test("Forward UPS includes false easting/northing of 2000000")
-  func forwardUPSFalseValues() throws {
+  @Test
+  func `Forward UPS includes false easting/northing of 2000000`() throws {
     let result = try UTMUPS.forward(latitude: 90, longitude: 0)
     // North pole should have easting=2000000, northing=2000000
     #expect(result.easting.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1))
     #expect(result.northing.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1))
   }
 
-  @Test("Forward with forced zone overrides automatic zone")
-  func forwardForcedZone() throws {
+  @Test
+  func `Forward with forced zone overrides automatic zone`() throws {
     // Force zone 32 for a point normally in zone 31
     let result = try UTMUPS.forward(latitude: 0, longitude: 3, zone: 32)
     #expect(result.zone == 32)
@@ -219,8 +219,8 @@ struct UTMUPSTests {
 
   // MARK: - Error Cases
 
-  @Test("Forward with invalid latitude throws")
-  func forwardInvalidLatitude() throws {
+  @Test
+  func `Forward with invalid latitude throws`() throws {
     #expect(throws: SwiftGeographicError.invalidLatitude(91)) {
       try UTMUPS.forward(latitude: 91, longitude: 0)
     }
@@ -229,8 +229,8 @@ struct UTMUPSTests {
     }
   }
 
-  @Test("Reverse with invalid zone throws")
-  func reverseInvalidZone() throws {
+  @Test
+  func `Reverse with invalid zone throws`() throws {
     #expect(throws: SwiftGeographicError.invalidZone(61)) {
       try UTMUPS.reverse(zone: 61, hemisphere: .north, easting: 500000, northing: 0)
     }
@@ -238,8 +238,8 @@ struct UTMUPSTests {
 
   // MARK: - Zone Boundary Edge Cases
 
-  @Test("Points near zone boundary between zones 30 and 31")
-  func zoneBoundary30_31() throws {
+  @Test
+  func `Points near zone boundary between zones 30 and 31`() throws {
     let west = try GeographicCoordinate(latitude: 45, longitude: -0.1)
     let utmWest = try west.utm
     #expect(utmWest.zone == 30)
@@ -249,8 +249,8 @@ struct UTMUPSTests {
     #expect(utmEast.zone == 31)
   }
 
-  @Test("Points near zone boundary between zones 1 and 60")
-  func zoneBoundary1_60() throws {
+  @Test
+  func `Points near zone boundary between zones 1 and 60`() throws {
     let west = try GeographicCoordinate(latitude: 45, longitude: -179)
     let utmWest = try west.utm
     #expect(utmWest.zone == 1)
@@ -262,8 +262,8 @@ struct UTMUPSTests {
 
   // MARK: - Band Boundary Edge Cases
 
-  @Test("Latitude band boundaries produce valid UTM conversions")
-  func bandBoundaries() throws {
+  @Test
+  func `Latitude band boundaries produce valid UTM conversions`() throws {
     let bandBoundaryLatitudes: [Double] = [
       -80, -72, -64, -56, -48, -40, -32, -24, -16, -8,
       0, 8, 16, 24, 32, 40, 48, 56, 64, 72
@@ -280,16 +280,16 @@ struct UTMUPSTests {
     }
   }
 
-  @Test("Upper UTM limit at latitude 83.99")
-  func upperUTMLimit() throws {
+  @Test
+  func `Upper UTM limit at latitude 83.99`() throws {
     let coord = try GeographicCoordinate(latitude: 83.99, longitude: 15)
     let utm = try coord.utm
     let recovered = try utm.geographic
     #expect(recovered.latitude.isApproximatelyEqual(to: 83.99, absoluteTolerance: 1e-4))
   }
 
-  @Test("Lower UTM limit at latitude -79.99")
-  func lowerUTMLimit() throws {
+  @Test
+  func `Lower UTM limit at latitude -79.99`() throws {
     let coord = try GeographicCoordinate(latitude: -79.99, longitude: 15)
     let utm = try coord.utm
     let recovered = try utm.geographic
@@ -298,42 +298,42 @@ struct UTMUPSTests {
 
   // MARK: - Norway/Svalbard Boundary Edge Cases
 
-  @Test("Norway exception boundary: lat=56, lon=3 (start of exception range)")
-  func norwayBoundaryStart() {
+  @Test
+  func `Norway exception boundary: lat=56, lon=3 (start of exception range)`() {
     #expect(UTMUPS.standardZone(latitude: 56, longitude: 3) == 32)
   }
 
-  @Test("Norway exception boundary: lat=55.99, lon=3 (just below)")
-  func norwayBoundaryJustBelow() {
+  @Test
+  func `Norway exception boundary: lat=55.99, lon=3 (just below)`() {
     #expect(UTMUPS.standardZone(latitude: 55.99, longitude: 3) == 31)
   }
 
-  @Test("Norway exception boundary: lat=63.99, lon=3 (just inside)")
-  func norwayBoundaryJustInside() {
+  @Test
+  func `Norway exception boundary: lat=63.99, lon=3 (just inside)`() {
     #expect(UTMUPS.standardZone(latitude: 63.99, longitude: 3) == 32)
   }
 
-  @Test("Svalbard boundary: lat=72, lon=9 (start of zone 33 exception)")
-  func svalbardBoundary72() {
+  @Test
+  func `Svalbard boundary: lat=72, lon=9 (start of zone 33 exception)`() {
     #expect(UTMUPS.standardZone(latitude: 72, longitude: 9) == 33)
   }
 
-  @Test("Svalbard boundary: lat=71.99, lon=9 (just below)")
-  func svalbardBoundaryJustBelow() {
+  @Test
+  func `Svalbard boundary: lat=71.99, lon=9 (just below)`() {
     let zone = UTMUPS.standardZone(latitude: 71.99, longitude: 9)
     #expect(zone != 33, "Below 72N should not use Svalbard exception")
   }
 
-  @Test("Svalbard boundary: lon=21 is zone 35, lon=20 is zone 33")
-  func svalbardLonBoundary() {
+  @Test
+  func `Svalbard boundary: lon=21 is zone 35, lon=20 is zone 33`() {
     #expect(UTMUPS.standardZone(latitude: 75, longitude: 21) == 35)
     #expect(UTMUPS.standardZone(latitude: 75, longitude: 20) == 33)
   }
 
   // MARK: - UTM/UPS Transition Edge Cases
 
-  @Test("Transition from UTM to UPS at north boundary")
-  func utmToUPSNorthTransition() throws {
+  @Test
+  func `Transition from UTM to UPS at north boundary`() throws {
     let utmResult = try UTMUPS.forward(latitude: 83.99, longitude: 15)
     #expect(utmResult.zone > 0, "83.99N should be UTM")
 
@@ -341,8 +341,8 @@ struct UTMUPSTests {
     #expect(upsResult.zone == 0, "84N should be UPS")
   }
 
-  @Test("Transition from UTM to UPS at south boundary")
-  func utmToUPSSouthTransition() throws {
+  @Test
+  func `Transition from UTM to UPS at south boundary`() throws {
     let utmResult = try UTMUPS.forward(latitude: -79.99, longitude: 15)
     #expect(utmResult.zone > 0, "-79.99 should be UTM")
 

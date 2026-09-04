@@ -9,20 +9,20 @@ import Testing
 /// - GeographicLib tests/CMakeLists.txt (GeoConvert, TransverseMercatorProj)
 /// - GeographicLib tests/signtest.cpp (signed-zero edge cases)
 /// - NGA.STND.0037_2.0.0_GRIDS (MGRS standard)
-@Suite("GeographicLib Compliance Tests")
-struct GeographicLibComplianceTests {
+@Suite
+struct `GeographicLib Compliance Tests` {
 
   // MARK: - MGRS Forward (Geographic -> MGRS)
 
-  @Test("GeoConvert0: (33.3, 44.4) -> 38SMB4484 at 1km precision")
-  func mgrsForward33_44() throws {
+  @Test
+  func `GeoConvert0: (33.3, 44.4) -> 38SMB4484 at 1km precision`() throws {
     let coord = try GeographicCoordinate(latitude: 33.3, longitude: 44.4)
     let mgrs = try coord.mgrs(precision: .oneKilometer).gridReference
     #expect(mgrs == "38SMB4484")
   }
 
-  @Test("MGRS at multiple precisions for (33.3, 44.4)")
-  func mgrsPrecisions() throws {
+  @Test
+  func `MGRS at multiple precisions for (33.3, 44.4)`() throws {
     let coord = try GeographicCoordinate(latitude: 33.3, longitude: 44.4)
 
     let mgrs100km = try coord.mgrs(precision: .hundredKilometer).gridReference
@@ -42,8 +42,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - MGRS Reverse (MGRS -> Geographic)
 
-  @Test("GeoConvert1: 38SMB -> approximately (33, 44.5)")
-  func mgrsReverse38SMB() throws {
+  @Test
+  func `GeoConvert1: 38SMB -> approximately (33, 44.5)`() throws {
     let mgrs = try MGRSCoordinate(string: "38SMB")
     let geo = try mgrs.geographic
     // 100km precision: center of grid cell
@@ -53,8 +53,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - UTM/UPS Known Points from GeographicLib
 
-  @Test("GeoConvert8: (86, 0) -> UPS north, easting 2000000, northing ~1555731.57")
-  func upsNorth86() throws {
+  @Test
+  func `GeoConvert8: (86, 0) -> UPS north, easting 2000000, northing ~1555731.57`() throws {
     let coord = try GeographicCoordinate(latitude: 86, longitude: 0)
     let ups = try coord.ups
     #expect(ups.hemisphere == .north)
@@ -64,8 +64,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - TransverseMercator Known Points from GeographicLib CTest
 
-  @Test("TMProj0: (90, 75) with k0=1 -> easting 0, northing 10001965.7293")
-  func tmPoleForwardK1() {
+  @Test
+  func `TMProj0: (90, 75) with k0=1 -> easting 0, northing 10001965.7293`() {
     let tm = TransverseMercator(
       semiMajorAxis: Constants.wgs84A,
       flattening: Constants.wgs84F,
@@ -78,8 +78,8 @@ struct GeographicLibComplianceTests {
     #expect(result.scale.isApproximatelyEqual(to: 1.0, absoluteTolerance: 1e-6))
   }
 
-  @Test("TMProj2: reverse (0, 10001965.7293127228) with k0=1 -> (90, 0)")
-  func tmPoleReverseK1() {
+  @Test
+  func `TMProj2: reverse (0, 10001965.7293127228) with k0=1 -> (90, 0)`() {
     let tm = TransverseMercator(
       semiMajorAxis: Constants.wgs84A,
       flattening: Constants.wgs84F,
@@ -93,10 +93,8 @@ struct GeographicLibComplianceTests {
     #expect(result.x.isApproximatelyEqual(to: 90, absoluteTolerance: 1e-6))
   }
 
-  @Test(
-    "TMProj4: (20, 30) on ellipsoid a=6.4e6, f=1/150 -> (3266035.453860, 2518371.552676)"
-  )
-  func tmNonWGS84Forward() {
+  @Test
+  func `TMProj4: (20, 30) on ellipsoid a=6.4e6, f=1/150 -> (3266035.453860, 2518371.552676)`() {
     let tm = TransverseMercator(
       semiMajorAxis: 6.4e6,
       flattening: 1.0 / 150,
@@ -111,10 +109,8 @@ struct GeographicLibComplianceTests {
     #expect(result.scale.isApproximatelyEqual(to: 1.134138960741, absoluteTolerance: 1e-6))
   }
 
-  @Test(
-    "TMProj6: reverse (3.3e6, 2.5e6) on ellipsoid a=6.4e6, f=1/150 -> (19.8037, 30.2492)"
-  )
-  func tmNonWGS84Reverse() {
+  @Test
+  func `TMProj6: reverse (3.3e6, 2.5e6) on ellipsoid a=6.4e6, f=1/150 -> (19.8037, 30.2492)`() {
     let tm = TransverseMercator(
       semiMajorAxis: 6.4e6,
       flattening: 1.0 / 150,
@@ -131,8 +127,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - MGRS from UTM Coordinates (GeographicLib GeoConvert16-18)
 
-  @Test("GeoConvert16: UTM 38N (444140.6, 3684706.3) -> MGRS square letters MB")
-  func mgrsFromUTMSquareLetters() throws {
+  @Test
+  func `GeoConvert16: UTM 38N (444140.6, 3684706.3) -> MGRS square letters MB`() throws {
     let utm = try UTMCoordinate(
       zone: 38,
       hemisphere: .north,
@@ -144,8 +140,8 @@ struct GeographicLibComplianceTests {
     #expect(mgrs.hasPrefix("38SMB"))
   }
 
-  @Test("GeoConvert17: UTM 38N (500000, 63.811) -> MGRS band N, square NF")
-  func mgrsNearEquatorSquareLetters() throws {
+  @Test
+  func `GeoConvert17: UTM 38N (500000, 63.811) -> MGRS band N, square NF`() throws {
     let utm = try UTMCoordinate(
       zone: 38,
       hemisphere: .north,
@@ -159,8 +155,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - UPS MGRS (GeographicLib GeoConvert19-21)
 
-  @Test("UPS south (2746000, 1515000) MGRS starts with B (south-east)")
-  func upsMGRS() throws {
+  @Test
+  func `UPS south (2746000, 1515000) MGRS starts with B (south-east)`() throws {
     let ups = try UPSCoordinate(
       hemisphere: .south,
       easting: 2_746_000,
@@ -172,8 +168,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - Equator Sign Convention (from signtest.cpp)
 
-  @Test("Signed-zero equator: +0.0 lat -> northern hemisphere, band N")
-  func signedZeroNorth() throws {
+  @Test
+  func `Signed-zero equator: +0.0 lat -> northern hemisphere, band N`() throws {
     let result = try UTMUPS.forward(latitude: +0.0, longitude: 3)
     #expect(result.hemisphere == .north)
     #expect(result.zone == 31)
@@ -182,8 +178,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - UTM/UPS Boundary Points
 
-  @Test("Exact boundary: lat=84 is UPS, lat=83.9999 is UTM")
-  func utmUpsBoundaryNorth() throws {
+  @Test
+  func `Exact boundary: lat=84 is UPS, lat=83.9999 is UTM`() throws {
     let upsResult = try UTMUPS.forward(latitude: 84, longitude: 15)
     #expect(upsResult.zone == 0)
 
@@ -191,8 +187,8 @@ struct GeographicLibComplianceTests {
     #expect(utmResult.zone > 0)
   }
 
-  @Test("Exact boundary: lat=-80 is UPS, lat=-79.9999 is UTM")
-  func utmUpsBoundarySouth() throws {
+  @Test
+  func `Exact boundary: lat=-80 is UPS, lat=-79.9999 is UTM`() throws {
     let upsResult = try UTMUPS.forward(latitude: -80, longitude: 15)
     #expect(upsResult.zone == 0)
 
@@ -202,24 +198,24 @@ struct GeographicLibComplianceTests {
 
   // MARK: - Pole Projections
 
-  @Test("North pole UPS is exactly (2000000, 2000000)")
-  func northPoleUPS() throws {
+  @Test
+  func `North pole UPS is exactly (2000000, 2000000)`() throws {
     let result = try UTMUPS.forward(latitude: 90, longitude: 0)
     #expect(result.zone == 0)
     #expect(result.easting.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1e-6))
     #expect(result.northing.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1e-6))
   }
 
-  @Test("South pole UPS is exactly (2000000, 2000000)")
-  func southPoleUPS() throws {
+  @Test
+  func `South pole UPS is exactly (2000000, 2000000)`() throws {
     let result = try UTMUPS.forward(latitude: -90, longitude: 0)
     #expect(result.zone == 0)
     #expect(result.easting.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1e-6))
     #expect(result.northing.isApproximatelyEqual(to: 2_000_000, absoluteTolerance: 1e-6))
   }
 
-  @Test("North pole at various longitudes all project to same UPS point")
-  func northPoleAllLongitudes() throws {
+  @Test
+  func `North pole at various longitudes all project to same UPS point`() throws {
     let longitudes = [0.0, 45, 90, 135, -45, -90, -135, 179]
     for lon in longitudes {
       let result = try UTMUPS.forward(latitude: 90, longitude: lon)
@@ -236,8 +232,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - TM Meridional Arc Length (from GeographicLib)
 
-  @Test("Meridional arc from equator to pole with k0=1 is ~10001965.7293 m")
-  func meridionalArcToPole() {
+  @Test
+  func `Meridional arc from equator to pole with k0=1 is ~10001965.7293 m`() {
     let tm = TransverseMercator(
       semiMajorAxis: Constants.wgs84A,
       flattening: Constants.wgs84F,
@@ -250,15 +246,15 @@ struct GeographicLibComplianceTests {
 
   // MARK: - Norway and Svalbard MGRS Zones
 
-  @Test("Norway exception: Bergen (60.39, 5.32) is in MGRS zone 32V, not 31V")
-  func norwayMGRS() throws {
+  @Test
+  func `Norway exception: Bergen (60.39, 5.32) is in MGRS zone 32V, not 31V`() throws {
     let coord = try GeographicCoordinate(latitude: 60.39, longitude: 5.32)
     let mgrs = try coord.mgrs(precision: .oneKilometer).gridReference
     #expect(mgrs.hasPrefix("32V"), "Bergen should be in zone 32V, got \(mgrs)")
   }
 
-  @Test("Svalbard exception: Longyearbyen (78.22, 15.65) is in MGRS zone 33X")
-  func svalbardMGRS() throws {
+  @Test
+  func `Svalbard exception: Longyearbyen (78.22, 15.65) is in MGRS zone 33X`() throws {
     let coord = try GeographicCoordinate(latitude: 78.22, longitude: 15.65)
     let mgrs = try coord.mgrs(precision: .oneKilometer).gridReference
     #expect(mgrs.hasPrefix("33X"), "Longyearbyen should be in zone 33X, got \(mgrs)")
@@ -266,8 +262,8 @@ struct GeographicLibComplianceTests {
 
   // MARK: - Well-Known Geographic Locations
 
-  @Test("Washington Monument (38.8895, -77.0353) MGRS reference")
-  func washingtonMonument() throws {
+  @Test
+  func `Washington Monument (38.8895, -77.0353) MGRS reference`() throws {
     let coord = try GeographicCoordinate(latitude: 38.8895, longitude: -77.0353)
     let mgrs = try coord.mgrs(precision: .oneMeter)
     // Should be in zone 18S, square UJ
@@ -282,8 +278,8 @@ struct GeographicLibComplianceTests {
     )
   }
 
-  @Test("Equator/prime meridian (0, 0) MGRS is in zone 31N")
-  func originMGRS() throws {
+  @Test
+  func `Equator/prime meridian (0, 0) MGRS is in zone 31N`() throws {
     let coord = try GeographicCoordinate(latitude: 0, longitude: 0)
     let mgrs = try coord.mgrs(precision: .oneKilometer).gridReference
     #expect(mgrs.hasPrefix("31N"), "Origin should be in zone 31N, got \(mgrs)")

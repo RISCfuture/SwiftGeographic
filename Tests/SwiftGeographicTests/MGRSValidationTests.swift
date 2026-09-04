@@ -18,8 +18,8 @@ import Testing
 /// Points within 0.01 degrees of the UTM/UPS boundary (84N, 80S) are excluded
 /// because both UTM and UPS are valid there; the zone assignment is a convention
 /// choice that differs between implementations.
-@Suite("MGRS Validation (133K points)")
-struct MGRSValidationTests {
+@Suite
+struct `MGRS Validation (133K points)` {
 
   // MARK: - Shared Helpers
 
@@ -80,8 +80,8 @@ struct MGRSValidationTests {
 
   // MARK: - Forward Validation
 
-  @Test("Forward MGRS matches geoconvert-rs for 96,400 points")
-  func geoconvertForwardValidation() throws {
+  @Test
+  func `Forward MGRS matches geoconvert-rs for 96,400 points`() throws {
     guard
       let coordsURL = Bundle.module.url(
         forResource: "mgrs_geoconvert_coords",
@@ -149,8 +149,8 @@ struct MGRSValidationTests {
     )
   }
 
-  @Test("Forward MGRS matches GeoTrans 3.7 for 37,044 points")
-  func geotransForwardValidation() throws {
+  @Test
+  func `Forward MGRS matches GeoTrans 3.7 for 37,044 points`() throws {
     guard
       let url = Bundle.module.url(
         forResource: "geotrans_clean",
@@ -221,8 +221,8 @@ struct MGRSValidationTests {
 
   // MARK: - Reverse Validation
 
-  @Test("Reverse MGRS matches geoconvert-rs coordinates for 96,400 points")
-  func geoconvertReverseValidation() throws {
+  @Test
+  func `Reverse MGRS matches geoconvert-rs coordinates for 96,400 points`() throws {
     guard
       let coordsURL = Bundle.module.url(
         forResource: "mgrs_geoconvert_coords",
@@ -311,8 +311,8 @@ struct MGRSValidationTests {
     )
   }
 
-  @Test("Reverse MGRS matches GeoTrans 3.7 coordinates for 37,044 points")
-  func geotransReverseValidation() throws {
+  @Test
+  func `Reverse MGRS matches GeoTrans 3.7 coordinates for 37,044 points`() throws {
     guard
       let url = Bundle.module.url(
         forResource: "geotrans_clean",
