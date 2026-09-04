@@ -2,9 +2,13 @@
 
 import PackageDescription
 
-let approachableConcurrency: [SwiftSetting] = [
+let upcomingFeatures: [SwiftSetting] = [
   .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-  .enableUpcomingFeature("InferIsolatedConformances")
+  .enableUpcomingFeature("InferIsolatedConformances"),
+  .enableUpcomingFeature("ImmutableWeakCaptures"),
+  .enableUpcomingFeature("MemberImportVisibility"),
+  .enableUpcomingFeature("ExistentialAny"),
+  .enableUpcomingFeature("InternalImportsByDefault")
 ]
 
 let package = Package(
@@ -32,7 +36,7 @@ let package = Package(
       dependencies: [
         .product(name: "Numerics", package: "swift-numerics")
       ],
-      swiftSettings: approachableConcurrency
+      swiftSettings: upcomingFeatures
     ),
     .testTarget(
       name: "SwiftGeographicTests",
@@ -46,7 +50,7 @@ let package = Package(
         .copy("Resources/mgrs_geoconvert_mgrs.txt"),
         .copy("Resources/geotrans_clean.txt")
       ],
-      swiftSettings: approachableConcurrency
+      swiftSettings: upcomingFeatures
     )
   ],
   swiftLanguageModes: [.v5, .v6]

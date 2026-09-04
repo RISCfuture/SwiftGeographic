@@ -1,5 +1,5 @@
 #if canImport(CoreLocation)
-  import CoreLocation
+  public import CoreLocation
 
   // MARK: - GeographicCoordinate
 
