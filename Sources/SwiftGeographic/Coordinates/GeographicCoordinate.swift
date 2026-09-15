@@ -25,7 +25,7 @@ public struct GeographicCoordinate: Sendable, Equatable, Hashable, Codable, Cust
   public var description: String {
     let latDir = latitude >= 0 ? "N" : "S"
     let lonDir = longitude >= 0 ? "E" : "W"
-    return String(
+    return unsafe String(
       format: "%.6f%@, %.6f%@",
       abs(latitude),
       latDir,

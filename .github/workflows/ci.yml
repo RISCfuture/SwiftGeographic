@@ -1,14 +1,12 @@
 # CI Matrix Policy
 #
-# Category C (tools-version 6.0):                macos-15 + 6.1, macos-15 + 6.3, macos-15 + 6.4,
+# Category B (tools-version 6.2):                macos-15 + 6.3, macos-15 + 6.4,
 #                                                macos-26 + 6.3, macos-26 + 6.4
-# Linux (if viable):                             ubuntu + Swift 6.1, ubuntu + Swift 6.3,
-#                                                ubuntu + Swift 6.4
+# Linux (if viable):                             ubuntu + Swift 6.3, ubuntu + Swift 6.4
 #
-# Test names use SE-0451 raw identifiers, which need a Swift 6.2+ compiler, so
-# legs below 6.2 verify the library builds and skip the test suite.
-#
-# When bumping tools-version to 6.2: drop 6.0/6.1, move to Category A or B
+# Swift 6.2 is the floor three ways over: the manifest's `.strictMemorySafety()`
+# needs a 6.2 SwiftPM, the `unsafe` markers it asks for are 6.2 syntax, and test
+# names use SE-0451 raw identifiers. Every leg therefore builds and tests.
 
 name: CI
 
@@ -30,8 +28,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-15
-            swift: "6.1"
           - os: macos-15
             swift: "6.3"
           - os: macos-15
@@ -57,7 +53,6 @@ jobs:
       - name: Build
         run: swift build -v
       - name: Test
-        if: matrix.swift != '6.1'
         run: swift test -v
   test-linux:
     name: Test on Linux
@@ -65,7 +60,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        swift: ["6.1", "6.3", "6.4"]
+        swift: ["6.3", "6.4"]
     container:
       image: swift:${{ matrix.swift }}
     steps:
@@ -81,7 +76,6 @@ jobs:
       - name: Build
         run: swift build -v
       - name: Test
-        if: matrix.swift != '6.1'
         run: swift test -v
   lint:
     name: Run SwiftLint

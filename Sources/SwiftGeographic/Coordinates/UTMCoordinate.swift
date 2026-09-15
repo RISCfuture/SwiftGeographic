@@ -22,7 +22,7 @@ public struct UTMCoordinate: Sendable, Equatable, Hashable, Codable, LosslessStr
 
   public var description: String {
     let hemi = hemisphere == .north ? "N" : "S"
-    return String(format: "%d%@ %.0f %.0f", zone, hemi, easting, northing)
+    return unsafe String(format: "%d%@ %.0f %.0f", zone, hemi, easting, northing)
   }
 
   /// The UTM zone number (1–60).

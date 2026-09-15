@@ -80,7 +80,7 @@ enum MGRSEngine {
     let colLetter = LetterTables.utmColumnLetters[setIndex][max(0, min(colIndex, 7))]
     let rowLetter = LetterTables.utmRowLetters[max(0, min(rowIndex, 19))]
 
-    let zoneStr = String(format: "%02d", zone)
+    let zoneStr = unsafe String(format: "%02d", zone)
     let gridZone = "\(zoneStr)\(bandLetter)"
     let squareIdentifier = "\(colLetter)\(rowLetter)"
 
@@ -499,8 +499,8 @@ enum MGRSEngine {
     let northDigit = min(Int(floor(northRemainder / divisor)), maxDigit)
 
     let format = "%0\(prec)ld"
-    let eastStr = String(format: format, eastDigit)
-    let northStr = String(format: format, northDigit)
+    let eastStr = unsafe String(format: format, eastDigit)
+    let northStr = unsafe String(format: format, northDigit)
 
     return eastStr + northStr
   }

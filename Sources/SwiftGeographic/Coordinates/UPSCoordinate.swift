@@ -20,7 +20,7 @@ public struct UPSCoordinate: Sendable, Equatable, Hashable, Codable, LosslessStr
 
   public var description: String {
     let hemi = hemisphere == .north ? "N" : "S"
-    return String(format: "%@ %.0f %.0f", hemi, easting, northing)
+    return unsafe String(format: "%@ %.0f %.0f", hemi, easting, northing)
   }
 
   /// The hemisphere (north or south pole).

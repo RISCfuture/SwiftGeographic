@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- Building and using the library now requires Swift 6.2 or newer. The tools version moves to 6.2, which strict memory safety and its `unsafe` expression marker require.
+
+### Security
+
+- Strict memory safety (SE-0458) is enabled for the library and its tests. The seven `String(format:)` calls it flags carry audited `unsafe` markers.
+
 ## [1.0.2] - 2026-09-14
 
 ### Changed
