@@ -7,7 +7,7 @@ import Foundation
 public struct ProjectionResult: Sendable, Equatable, Hashable, Codable, CustomStringConvertible {
 
   public var description: String {
-    String(format: "(%.6f, %.6f) scale=%.10f convergence=%.6f", x, y, scale, convergence)
+    unsafe String(format: "(%.6f, %.6f) scale=%.10f convergence=%.6f", x, y, scale, convergence)
   }
 
   /// The first coordinate: easting in meters (forward) or latitude in degrees
